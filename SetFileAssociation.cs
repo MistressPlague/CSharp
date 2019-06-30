@@ -1,4 +1,7 @@
-public static void SetAssociation_User(string Extension, string OpenWith, string ExecutableName)
+        //Example C# .NET Usage:
+        SetAssociation_User("txt", Application.ExecutablePath, Process.GetCurrentProcess().ProcessName + ".exe");
+
+        public static void SetAssociation(string Extension, string OpenWith, string ExecutableName)
         {
             try
             {
