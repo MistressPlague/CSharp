@@ -1,5 +1,5 @@
         //Example C# .NET Usage:
-        SetAssociation_User("txt", Application.ExecutablePath, Process.GetCurrentProcess().ProcessName + ".exe");
+        SetAssociation("txt", Application.ExecutablePath, Process.GetCurrentProcess().ProcessName + ".exe");
 
         public static void SetAssociation(string Extension, string OpenWith, string ExecutableName)
         {
