@@ -40,9 +40,9 @@
                 //Tell Windows File Assoc Changes Were Made
                 SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
             }
-            catch (Exception excpt)
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed To Create / Edit Registry Key!\nReason: " + excpt.Message);
+                MessageBox.Show("Failed To Create / Edit Registry Key!\nReason: " + ex.Message);
             }
         }
 
