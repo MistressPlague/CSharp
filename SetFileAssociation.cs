@@ -1,7 +1,7 @@
         //Example C# .NET Usage:
-        SetAssociation("txt", Application.ExecutablePath, Process.GetCurrentProcess().ProcessName + ".exe");
+        SetFileTypeAssociationCurrentUser("txt", "TXT File", Application.ExecutablePath, Process.GetCurrentProcess().ProcessName + ".exe");
 
-        public static void SetAssociation(string Extension, string OpenWith, string ExecutableName)
+        public static void SetFileTypeAssociationCurrentUser(string Extension, string TypeLabel, string OpenWith, string ExecutableName)
         {
             try
             {
@@ -22,12 +22,21 @@
                     User_Classes.SetValue("", Extension + "_auto_file", RegistryValueKind.String);
                     User_Classes.CreateSubKey(Extension + "_auto_file");
                     User_AutoFile_Command.SetValue("", "\"" + OpenWith + "\"" + " \"%1\"");
+                    User_AutoFile.SetValue("", "\"" + OpenWith + "-469\"" + " \"%1\"", RegistryValueKind.ExpandString);
+                    User_AutoFile.SetValue("FriendlyTypeName", TypeLabel);
                     ApplicationAssociationToasts.SetValue(Extension + "_auto_file_." + Extension, 0);
                     ApplicationAssociationToasts.SetValue(@"Applications\" + ExecutableName + "_." + Extension, 0);
                     User_Application_Command.SetValue("", "\"" + OpenWith + "\"" + " \"%1\"");
+                    User_Classes_Applications_Exe.SetValue("", "\"" + OpenWith + "-469\"" + " \"%1\"", RegistryValueKind.ExpandString);
+                    User_Classes_Applications_Exe.SetValue("FriendlyTypeName", TypeLabel);
                     User_Explorer.CreateSubKey("OpenWithList").SetValue("a", ExecutableName);
                     User_Explorer.CreateSubKey("OpenWithProgids").SetValue(Extension + "_auto_file", "0");
-                    if (User_Choice != null) User_Explorer.DeleteSubKey("UserChoice");
+                        
+                    if (User_Choice != null)
+                    {
+                        User_Explorer.DeleteSubKey("UserChoice");
+                    }
+
                     User_Explorer.CreateSubKey("UserChoice").SetValue("ProgId", @"Applications\" + ExecutableName);
                 }
 
@@ -40,9 +49,9 @@
                 //Tell Windows File Assoc Changes Were Made
                 SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
             }
-            catch (Exception ex)
+            catch (Exception excpt)
             {
-                MessageBox.Show("Failed To Create / Edit Registry Key!\nReason: " + ex.Message);
+                MessageBox.Show("Failed To Create / Edit Registry Key!\nReason: " + excpt.Message);
             }
         }
 
